@@ -66,11 +66,7 @@ export class UrlsService {
   }
 
   async listByUserId(user: User): Promise<ListUrlReponseDto[]> {
-    const userEntity = await this.userRepository.findOneBy({email: user.email});
-
-    if (!userEntity) {
-      throw new Error('User not found');
-    }
+    const userEntity = await this.getUserByEmail(user.email);
 
     const urls = await this.urlRepository
       .createQueryBuilder('url')
@@ -92,14 +88,31 @@ export class UrlsService {
   }
 
   async updateLongUrl(token: string, newLongUrl: string, user: User) {
-    const userEntity = await this.userRepository.findOneBy({email: user.email});
+    const userEntity = await this.getUserByEmail(user.email);
+    const url = await this.getUrlByTokenAndUser(token, userEntity);
+    url.longUrl = newLongUrl;
+    await this.urlRepository.save(url);
+  }
 
-    if (!userEntity) {
-      throw new Error('User not found');
+  async deleteUrl(token: string, user: User) {
+    const userEntity = await this.getUserByEmail(user.email);
+    const url = await this.getUrlByTokenAndUser(token, userEntity);
+    await this.urlRepository.softRemove(url);
+  }
+
+  private async getUserByEmail(email: string): Promise<User> {
+    const user = await this.userRepository.findOneBy({email});
+
+    if (!user) {
+      throw new NotFoundException('User not found');
     }
 
+    return user;
+  }
+
+  private async getUrlByTokenAndUser(token: string, user: User): Promise<Url> {
     const url = await this.urlRepository.findOne({
-      where: {token, user: {userId: userEntity.userId}},
+      where: {token, user: {userId: user.userId}},
     });
 
     if (!url) {
@@ -108,8 +121,6 @@ export class UrlsService {
       );
     }
 
-    url.longUrl = newLongUrl;
-
-    await this.urlRepository.save(url);
+    return url;
   }
 }

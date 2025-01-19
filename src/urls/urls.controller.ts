@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -65,5 +66,15 @@ export class UrlsController {
       updateLongUrlDto.newLongUrl,
       req.user,
     );
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete('urls/delete/:token')
+  @UseGuards(AuthGuard)
+  async deleteUrl(
+    @Param('token') token: string,
+    @Request() req: AuthenticatedRequest,
+  ) {
+    await this.urlsService.deleteUrl(token, req.user);
   }
 }
