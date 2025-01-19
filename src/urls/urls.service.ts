@@ -4,21 +4,24 @@ import {Url} from './entities/url.entity';
 import {Repository} from 'typeorm';
 import {CreateUrlDto} from './dto/create-url.dto';
 import {User} from 'src/users/entities/user.entity';
-import {UrlResponseDto} from './dto/url-response-dto';
 import {ConfigService} from '@nestjs/config';
+import {ShortenUrlResponseDto} from './dto/shorten-url-response.dto';
+import {ListUrlReponseDto} from './dto/list-url-response.dto';
 
 @Injectable()
 export class UrlsService {
   constructor(
     @InjectRepository(Url)
     private readonly urlRepository: Repository<Url>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
     private readonly configService: ConfigService,
   ) {}
 
   async shortenUrl(
     createUrlDto: CreateUrlDto,
     user?: User,
-  ): Promise<UrlResponseDto> {
+  ): Promise<ShortenUrlResponseDto> {
     const token = this.generateToken();
 
     let fullUser: User | null = null;
@@ -60,5 +63,31 @@ export class UrlsService {
   async incrementClickCount(url: Url): Promise<void> {
     url.clicks += 1;
     await this.urlRepository.save(url);
+  }
+
+  async listByUserId(user: User): Promise<ListUrlReponseDto[]> {
+    const userEntity = await this.userRepository.findOneBy({email: user.email});
+
+    if (!userEntity) {
+      throw new Error('User not found');
+    }
+
+    const urls = await this.urlRepository
+      .createQueryBuilder('url')
+      .innerJoinAndSelect('url.user', 'user')
+      .where('user.userId = :userId', {userId: userEntity.userId})
+      .andWhere('url.deletedAt IS NULL')
+      .orderBy('url.createdAt', 'DESC')
+      .getMany();
+
+    const baseUrl = this.configService.get<string>('BASE_URL');
+    const apiPort = this.configService.get<string>('API_PORT');
+
+    return urls.map((url) => ({
+      urlId: url.urlId,
+      longUrl: url.longUrl,
+      shortUrl: `${baseUrl}:${apiPort}/${url.token}`,
+      clicks: url.clicks,
+    }));
   }
 }

@@ -1,6 +1,6 @@
-export class UrlResponseDto {
+export class ListUrlReponseDto {
   urlId: string;
   longUrl: string;
   shortUrl: string;
-  createdAt: Date;
+  clicks: number;
 }

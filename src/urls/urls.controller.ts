@@ -14,12 +14,13 @@ import {CreateUrlDto} from './dto/create-url.dto';
 import {AuthenticatedRequest} from '../common/types/express-request.interface';
 import {OptionalAuthGuard} from 'src/auth/guards/optional-auth.guard';
 import {Response} from 'express';
+import {AuthGuard} from 'src/auth/guards/auth.guard';
 
 @Controller()
 export class UrlsController {
   constructor(private readonly urlsService: UrlsService) {}
 
-  @Post('shorten')
+  @Post('urls/shorten')
   @UseGuards(OptionalAuthGuard)
   async shortenUrl(
     @Body() createUrlDto: CreateUrlDto,
@@ -39,5 +40,11 @@ export class UrlsController {
     await this.urlsService.incrementClickCount(url);
 
     return res.redirect(url.longUrl);
+  }
+
+  @Get('urls/listByUser')
+  @UseGuards(AuthGuard)
+  async listByUser(@Request() req: AuthenticatedRequest) {
+    return this.urlsService.listByUserId(req.user);
   }
 }
