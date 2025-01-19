@@ -1,3 +1,3 @@
-export default () => ({
-  jwtSecret: process.env.JWT_SECRET,
-});
+// export default () => ({
+//   jwtSecret: process.env.JWT_SECRET,
+// });

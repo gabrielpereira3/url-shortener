@@ -1,15 +1,17 @@
+import {Url} from 'src/urls/entities/url.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
-@Entity()
+@Entity('users')
 export class User {
-  @PrimaryGeneratedColumn()
-  userId: number;
+  @PrimaryGeneratedColumn('uuid')
+  userId: string;
 
   @Column({unique: true})
   email: string;
@@ -23,6 +25,9 @@ export class User {
   @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({nullable: true})
   updatedAt: Date;
+
+  @OneToMany(() => Url, (url) => url.user, {cascade: true})
+  urls: Url[];
 }
