@@ -52,4 +52,13 @@ export class UrlsService {
   private generateToken(): string {
     return Math.random().toString(36).substring(2, 8);
   }
+
+  findByToken(token: string): Promise<Url> {
+    return this.urlRepository.findOne({where: {token}});
+  }
+
+  async incrementClickCount(url: Url): Promise<void> {
+    url.clicks += 1;
+    await this.urlRepository.save(url);
+  }
 }
