@@ -53,19 +53,7 @@ URL Shortener é uma API RESTful construída com **Node.js** e **NestJS** para e
 3. Configure as variáveis de ambiente:
 
    - Crie um arquivo `.env` na raiz do projeto.
-   - Adicione as seguintes variáveis:
-
-     ```env
-     API_PORT=3000
-     BASE_URL=http://localhost
-     JWT_SECRET=your_jwt_secret
-     JWT_EXPIRES_IN=1d
-     DATABASE_HOST=db
-     DATABASE_PORT=3306
-     DATABASE_USER=root
-     DATABASE_PASSWORD=your_database_password
-     DATABASE_NAME=url-shortener
-     ```
+   - Copie o conteúdo de `.env.example` fazendo as modificações necessárias.
 
 4. Suba o ambiente com Docker Compose:
 
@@ -82,7 +70,7 @@ URL Shortener é uma API RESTful construída com **Node.js** e **NestJS** para e
 A API está documentada com **Swagger**. Para acessar a documentação:
 
 1. Suba o ambiente local.
-2. Abra o navegador e acesse: `http://localhost:3000/api`.
+2. Abra o navegador e acesse: `http://localhost:3000/api/docs`.
 
 ---
 
