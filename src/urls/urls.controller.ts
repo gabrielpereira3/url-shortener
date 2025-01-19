@@ -2,8 +2,11 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   NotFoundException,
   Param,
+  Patch,
   Post,
   Request,
   Res,
@@ -15,6 +18,7 @@ import {AuthenticatedRequest} from '../common/types/express-request.interface';
 import {OptionalAuthGuard} from 'src/auth/guards/optional-auth.guard';
 import {Response} from 'express';
 import {AuthGuard} from 'src/auth/guards/auth.guard';
+import {UpdateLongUrlDto} from './dto/update-long-url.dto';
 
 @Controller()
 export class UrlsController {
@@ -46,5 +50,20 @@ export class UrlsController {
   @UseGuards(AuthGuard)
   async listByUser(@Request() req: AuthenticatedRequest) {
     return this.urlsService.listByUserId(req.user);
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Patch('urls/update/:token')
+  @UseGuards(AuthGuard)
+  async updateLongUrl(
+    @Param('token') token: string,
+    @Body() updateLongUrlDto: UpdateLongUrlDto,
+    @Request() req: AuthenticatedRequest,
+  ) {
+    await this.urlsService.updateLongUrl(
+      token,
+      updateLongUrlDto.newLongUrl,
+      req.user,
+    );
   }
 }

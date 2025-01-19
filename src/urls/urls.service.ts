@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Url} from './entities/url.entity';
 import {Repository} from 'typeorm';
@@ -89,5 +89,27 @@ export class UrlsService {
       shortUrl: `${baseUrl}:${apiPort}/${url.token}`,
       clicks: url.clicks,
     }));
+  }
+
+  async updateLongUrl(token: string, newLongUrl: string, user: User) {
+    const userEntity = await this.userRepository.findOneBy({email: user.email});
+
+    if (!userEntity) {
+      throw new Error('User not found');
+    }
+
+    const url = await this.urlRepository.findOne({
+      where: {token, user: {userId: userEntity.userId}},
+    });
+
+    if (!url) {
+      throw new NotFoundException(
+        'URL token not found or does not belong to the user',
+      );
+    }
+
+    url.longUrl = newLongUrl;
+
+    await this.urlRepository.save(url);
   }
 }
