@@ -5,7 +5,6 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  NotFoundException,
   Param,
   Patch,
   Post,
@@ -37,13 +36,7 @@ export class UrlsController {
   @Get(':token')
   async redirect(@Param('token') token: string, @Res() res: Response) {
     const url = await this.urlsService.findByToken(token);
-
-    if (!url) {
-      throw new NotFoundException('URL not found');
-    }
-
     await this.urlsService.incrementClickCount(url);
-
     return res.redirect(url.longUrl);
   }
 

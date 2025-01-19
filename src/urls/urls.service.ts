@@ -56,8 +56,14 @@ export class UrlsService {
     return Math.random().toString(36).substring(2, 8);
   }
 
-  findByToken(token: string): Promise<Url> {
-    return this.urlRepository.findOne({where: {token}});
+  async findByToken(token: string): Promise<Url> {
+    const url = await this.urlRepository.findOne({where: {token}});
+
+    if (!url) {
+      throw new NotFoundException('URL not found');
+    }
+
+    return url;
   }
 
   async incrementClickCount(url: Url): Promise<void> {
