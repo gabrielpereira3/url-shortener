@@ -1,99 +1,214 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# URL Shortener API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+URL Shortener é uma API RESTful construída com **Node.js** e **NestJS** para encurtar URLs. O sistema permite que usuários autenticados e não autenticados encurtem URLs, e fornece funcionalidades avançadas para usuários autenticados, como listagem, edição e exclusão de URLs encurtadas.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## **Funcionalidades**
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Encurtamento de URLs:**
+  - Permite encurtar URLs para até 6 caracteres.
+  - Exemplo:
+    - Entrada: `https://example.com/long-url`
+    - Saída: `http://localhost/aZbKq7`
 
-## Project setup
+- **Autenticação de Usuários:**
+  - Cadastro de novos usuários.
+  - Login com autenticação via Bearer Token (JWT).
+
+- **Gerenciamento de URLs:**
+  - Listar URLs encurtadas pelo usuário (autenticado), incluindo contagem de cliques.
+  - Editar a URL original de URLs encurtadas.
+  - Excluir URLs logicamente (soft delete).
+
+- **Redirecionamento e Contabilização:**
+  - Redireciona para a URL original ao acessar a URL encurtada.
+  - Contabiliza o número de acessos.
+
+---
+
+## **Como Rodar o Projeto**
+
+### **Pré-requisitos**
+
+- **Node.js**: Última versão LTS (>= 18.x).
+- **Docker e Docker Compose**: Para rodar o ambiente completo localmente.
+- **Git**: Para clonar o repositório.
+
+### **Instalação**
+
+1. Clone o repositório:
+
+   ```bash
+   git clone https://github.com/gabrielpereira3/url-shortener.git
+   cd url-shortener
+   ```
+
+2. Instale as dependências:
+
+   ```bash
+   npm install
+   ```
+
+3. Configure as variáveis de ambiente:
+
+   - Crie um arquivo `.env` na raiz do projeto.
+   - Adicione as seguintes variáveis:
+
+     ```env
+     API_PORT=3000
+     BASE_URL=http://localhost
+     JWT_SECRET=your_jwt_secret
+     JWT_EXPIRES_IN=1d
+     DATABASE_HOST=db
+     DATABASE_PORT=3306
+     DATABASE_USER=root
+     DATABASE_PASSWORD=your_database_password
+     DATABASE_NAME=url-shortener
+     ```
+
+4. Suba o ambiente com Docker Compose:
+
+   ```bash
+   docker-compose up --build
+   ```
+
+5. Acesse a API em: `http://localhost:3000`
+
+---
+
+## **Documentação da API**
+
+A API está documentada com **Swagger**. Para acessar a documentação:
+
+1. Suba o ambiente local.
+2. Abra o navegador e acesse: `http://localhost:3000/api`.
+
+---
+
+## **Endpoints**
+
+### **Autenticação**
+
+- **POST /auth/login**: Faz login e retorna um token JWT.
+  - **Corpo da Requisição:**
+    ```json
+    {
+      "email": "user@example.com",
+      "password": "password123"
+    }
+    ```
+  - **Resposta:**
+    ```json
+    {
+      "accessToken": "jwt_token"
+    }
+    ```
+
+### **Usuários**
+
+- **POST /users/create**: Cria um novo usuário.
+  - **Corpo da Requisição:**
+    ```json
+    {
+      "email": "user@example.com",
+      "password": "password123"
+    }
+    ```
+  - **Resposta:**
+    ```json
+    {
+      "userId": "uuid",
+      "email": "user@example.com",
+      "createdAt": "2025-01-19T20:00:00.000Z"
+    }
+    ```
+
+### **URLs**
+
+- **POST /urls/shorten**: Encurta uma URL.
+  - **Corpo da Requisição:**
+    ```json
+    {
+      "longUrl": "https://example.com/long-url"
+    }
+    ```
+  - **Resposta:**
+    ```json
+    {
+      "urlId": "uuid",
+      "longUrl": "https://example.com/long-url",
+      "shortUrl": "http://localhost/aZbKq7",
+      "createdAt": "2025-01-19T20:00:00.000Z"
+    }
+    ```
+
+- **GET /urls/listByUser**: Lista URLs encurtadas do usuário autenticado.
+  - **Cabeçalho:**
+    ```json
+    {
+      "Authorization": "Bearer jwt_token"
+    }
+    ```
+  - **Resposta:**
+    ```json
+    [
+      {
+        "urlId": "uuid",
+        "longUrl": "https://example.com",
+        "shortUrl": "http://localhost/aZbKq7",
+        "clicks": 10
+      }
+    ]
+    ```
+
+- **PATCH /urls/update/:token**: Atualiza a URL original de uma URL encurtada.
+  - **Corpo da Requisição:**
+    ```json
+    {
+      "newLongUrl": "https://newexample.com"
+    }
+    ```
+
+- **DELETE /urls/delete/:token**: Exclui uma URL encurtada logicamente.
+
+- **GET /:token**: Redireciona para a URL original e contabiliza o acesso.
+
+---
+
+## **Testes**
+
+Execute os testes unitários com:
 
 ```bash
-$ npm install
+npm run test
 ```
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## **Pontos de Melhoria**
 
-# watch mode
-$ npm run start:dev
+1. **Banco de Dados Distribuído:**
+   - Utilizar um banco de dados distribuído para alta disponibilidade e escalabilidade.
 
-# production mode
-$ npm run start:prod
-```
+2. **Cache:**
+   - Implementar um sistema de cache (Redis) para melhorar a performance em URLs acessadas frequentemente.
 
-## Run tests
+3. **Balanceamento de Carga:**
+   - Adicionar um balanceador de carga (NGINX ou AWS ELB) para distribuir requisições entre múltiplas instâncias.
 
-```bash
-# unit tests
-$ npm run test
+4. **Filas Assíncronas:**
+   - Processar tarefas como contagem de cliques de forma assíncrona usando RabbitMQ ou Kafka.
 
-# e2e tests
-$ npm run test:e2e
+---
 
-# test coverage
-$ npm run test:cov
-```
+## **Autor**
 
-## Deployment
+[Gabriel Pereira Soares](https://github.com/gabrielpereira3)
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+---
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## **Licença**
 
-```bash
-$ npm install -g mau
-$ mau deploy
-```
+Este projeto está licenciado sob a Licença MIT.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
