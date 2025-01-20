@@ -1,6 +1,23 @@
-# URL Shortener API
+URL Shortener é uma **API RESTful** construída para encurtar URLs, oferecendo funcionalidades para usuários autenticados e não autenticados. 
 
-URL Shortener é uma API RESTful construída com **Node.js** e **NestJS** para encurtar URLs. O sistema permite que usuários autenticados e não autenticados encurtem URLs, e fornece funcionalidades avançadas para usuários autenticados, como listagem, edição e exclusão de URLs encurtadas.
+Usuários **autenticados** têm acesso a recursos avançados, como:
+- Listar URLs encurtadas.
+- Editar URLs encurtadas.
+- Excluir URLs encurtadas.
+
+Usuários **não autenticados** podem encurtar URLs sem necessidade de login.
+
+---
+
+## 🚀 Stacks Utilizadas
+
+![Node.js](https://img.shields.io/badge/-Node.js-339933?logo=node.js&logoColor=white&style=for-the-badge)
+![NestJS](https://img.shields.io/badge/-NestJS-E0234E?logo=nestjs&logoColor=white&style=for-the-badge)
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white&style=for-the-badge)
+![MySQL](https://img.shields.io/badge/-MySQL-4479A1?logo=mysql&logoColor=white&style=for-the-badge)
+![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white&style=for-the-badge)
+![Jest](https://img.shields.io/badge/-Jest-C21325?logo=jest&logoColor=white&style=for-the-badge)
+![Swagger](https://img.shields.io/badge/-Swagger-85EA2D?logo=swagger&logoColor=black&style=for-the-badge)
 
 ---
 
