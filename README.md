@@ -9,7 +9,7 @@ Usuários **não autenticados** podem encurtar URLs sem necessidade de login.
 
 ---
 
-## 🚀 Stacks Utilizadas
+## 🚀 Linguagens e Ferramentas Utilizadas
 
 ![Node.js](https://img.shields.io/badge/-Node.js-339933?logo=node.js&logoColor=white&style=for-the-badge)
 ![NestJS](https://img.shields.io/badge/-NestJS-E0234E?logo=nestjs&logoColor=white&style=for-the-badge)
