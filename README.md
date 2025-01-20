@@ -4,6 +4,23 @@ URL Shortener é uma API RESTful construída com **Node.js** e **NestJS** para e
 
 ---
 
+## 🌐 API Disponível no Google Cloud Platform
+
+A API do URL Shortener está atualmente hospedada no **Google Cloud Platform** e pode ser acessada através do seguinte endereço:
+
+- **Base URL da API**: [http://34.127.107.109:3000](http://34.127.107.109:3000)
+
+### 📄 Documentação Swagger
+
+A documentação da API, incluindo todas as rotas e detalhes de uso, está disponível através do Swagger no seguinte endereço:
+
+- **Swagger UI**: [http://34.127.107.109:3000/api/docs](http://34.127.107.109:3000/api/docs)
+
+Utilize a documentação para explorar as funcionalidades da API e testar as rotas diretamente na interface do Swagger.
+
+
+---
+
 ## **Funcionalidades**
 
 - **Encurtamento de URLs:**
