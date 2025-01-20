@@ -14,7 +14,7 @@ export class Url {
   @PrimaryGeneratedColumn('uuid')
   urlId: string;
 
-  @Column()
+  @Column({type: 'varchar', length: 2048})
   longUrl: string;
 
   @Column({unique: true})
