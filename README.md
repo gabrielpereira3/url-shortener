@@ -78,24 +78,18 @@ Utilize a documentação para explorar as funcionalidades da API e testar as rot
    cd url-shortener
    ```
 
-2. Instale as dependências:
-
-   ```bash
-   npm install
-   ```
-
-3. Configure as variáveis de ambiente:
+2. Configure as variáveis de ambiente:
 
    - Crie um arquivo `.env` na raiz do projeto.
    - Copie o conteúdo de `.env.example` fazendo as modificações necessárias.
 
-4. Suba o ambiente com Docker Compose:
+3. Suba o ambiente com Docker Compose:
 
    ```bash
    docker-compose up --build
    ```
 
-5. Acesse a API em: `http://localhost:3000`
+4. Acesse a API em: `http://localhost:3000`
 
 ---
 
@@ -208,7 +202,7 @@ npm run test
 
 ---
 
-## **Pontos de Melhoria**
+## **Pontos de Melhoria para Escalar Horizontalmente**
 
 1. **Banco de Dados Distribuído:**
    - Utilizar um banco de dados distribuído para alta disponibilidade e escalabilidade.
