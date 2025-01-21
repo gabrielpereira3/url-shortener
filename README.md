@@ -1,6 +1,23 @@
-# URL Shortener API
+URL Shortener é uma **API RESTful** construída para encurtar URLs, oferecendo funcionalidades para usuários autenticados e não autenticados. 
 
-URL Shortener é uma API RESTful construída com **Node.js** e **NestJS** para encurtar URLs. O sistema permite que usuários autenticados e não autenticados encurtem URLs, e fornece funcionalidades avançadas para usuários autenticados, como listagem, edição e exclusão de URLs encurtadas.
+Usuários **autenticados** têm acesso a recursos avançados, como:
+- Listar URLs encurtadas.
+- Editar URLs encurtadas.
+- Excluir URLs encurtadas.
+
+Usuários **não autenticados** podem encurtar URLs sem necessidade de login.
+
+---
+
+## 🚀 Linguagens e Ferramentas Utilizadas
+
+![Node.js](https://img.shields.io/badge/-Node.js-339933?logo=node.js&logoColor=white&style=for-the-badge)
+![NestJS](https://img.shields.io/badge/-NestJS-E0234E?logo=nestjs&logoColor=white&style=for-the-badge)
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white&style=for-the-badge)
+![MySQL](https://img.shields.io/badge/-MySQL-4479A1?logo=mysql&logoColor=white&style=for-the-badge)
+![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white&style=for-the-badge)
+![Jest](https://img.shields.io/badge/-Jest-C21325?logo=jest&logoColor=white&style=for-the-badge)
+![Swagger](https://img.shields.io/badge/-Swagger-85EA2D?logo=swagger&logoColor=black&style=for-the-badge)
 
 ---
 
@@ -61,24 +78,18 @@ Utilize a documentação para explorar as funcionalidades da API e testar as rot
    cd url-shortener
    ```
 
-2. Instale as dependências:
-
-   ```bash
-   npm install
-   ```
-
-3. Configure as variáveis de ambiente:
+2. Configure as variáveis de ambiente:
 
    - Crie um arquivo `.env` na raiz do projeto.
    - Copie o conteúdo de `.env.example` fazendo as modificações necessárias.
 
-4. Suba o ambiente com Docker Compose:
+3. Suba o ambiente com Docker Compose:
 
    ```bash
    docker-compose up --build
    ```
 
-5. Acesse a API em: `http://localhost:3000`
+4. Acesse a API em: `http://localhost:3000`
 
 ---
 
@@ -191,7 +202,7 @@ npm run test
 
 ---
 
-## **Pontos de Melhoria**
+## **Pontos de Melhoria para Escalar Horizontalmente**
 
 1. **Banco de Dados Distribuído:**
    - Utilizar um banco de dados distribuído para alta disponibilidade e escalabilidade.
