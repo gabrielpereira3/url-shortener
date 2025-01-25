@@ -1,11 +1,6 @@
-URL Shortener é uma **API RESTful** construída para encurtar URLs, oferecendo funcionalidades para usuários autenticados e não autenticados. 
+# URL Shortener API
 
-Usuários **autenticados** têm acesso a recursos avançados, como:
-- Listar URLs encurtadas.
-- Editar URLs encurtadas.
-- Excluir URLs encurtadas.
-
-Usuários **não autenticados** podem encurtar URLs sem necessidade de login.
+URL Shortener is a RESTful API built with **Node.js** and **NestJS** to shorten URLs. The system allows both authenticated and unauthenticated users to shorten URLs and provides advanced features for authenticated users, such as listing, editing, and deleting shortened URLs.
 
 ---
 
@@ -35,103 +30,114 @@ A documentação da API, incluindo todas as rotas e detalhes de uso, está dispo
 
 Utilize a documentação para explorar as funcionalidades da API e testar as rotas diretamente na interface do Swagger.
 
+---
+
+## **Features**
+
+- **URL Shortening:**
+  - Allows URLs to be shortened to 6 characters.
+  - Example:
+    - Input: `https://example.com/long-url`
+    - Output: `http://localhost/aZbKq7`
+
+- **User Authentication:**
+  - New user registration.
+  - Login with Bearer Token (JWT) authentication.
+
+- **URL Management:**
+  - List shortened URLs for authenticated users, including click counts.
+  - Edit the original URL of shortened links.
+  - Soft delete shortened URLs.
+
+- **Redirection and Click Counting:**
+  - Redirects to the original URL when accessing the shortened link.
+  - Tracks the number of accesses.
 
 ---
 
-## **Funcionalidades**
+## **How to Run the Project**
 
-- **Encurtamento de URLs:**
-  - Permite encurtar URLs para até 6 caracteres.
-  - Exemplo:
-    - Entrada: `https://example.com/long-url`
-    - Saída: `http://localhost/aZbKq7`
+### **Prerequisites**
 
-- **Autenticação de Usuários:**
-  - Cadastro de novos usuários.
-  - Login com autenticação via Bearer Token (JWT).
+- **Node.js:** Latest LTS version (>= 18.x).
+- **Docker and Docker Compose:** To run the complete environment locally.
+- **Git:** To clone the repository.
 
-- **Gerenciamento de URLs:**
-  - Listar URLs encurtadas pelo usuário (autenticado), incluindo contagem de cliques.
-  - Editar a URL original de URLs encurtadas.
-  - Excluir URLs logicamente (soft delete).
+### **Installation**
 
-- **Redirecionamento e Contabilização:**
-  - Redireciona para a URL original ao acessar a URL encurtada.
-  - Contabiliza o número de acessos.
-
----
-
-## **Como Rodar o Projeto**
-
-### **Pré-requisitos**
-
-- **Node.js**: Última versão LTS (>= 18.x).
-- **Docker e Docker Compose**: Para rodar o ambiente completo localmente.
-- **Git**: Para clonar o repositório.
-
-### **Instalação**
-
-1. Clone o repositório:
+1. Clone the repository:
 
    ```bash
    git clone https://github.com/gabrielpereira3/url-shortener.git
    cd url-shortener
    ```
 
-2. Configure as variáveis de ambiente:
+2. Configure the environment variables:
 
-   - Crie um arquivo `.env` na raiz do projeto.
-   - Copie o conteúdo de `.env.example` fazendo as modificações necessárias.
+   - Create a `.env` file in the root directory.
+   - Add the following variables:
 
-3. Suba o ambiente com Docker Compose:
+     ```env
+     API_PORT=3000
+     BASE_URL=http://localhost
+     JWT_SECRET=your_jwt_secret
+     JWT_EXPIRES_IN=1d
+     DATABASE_HOST=db
+     DATABASE_PORT=3306
+     DATABASE_USER=root
+     DATABASE_PASSWORD=your_database_password
+     DATABASE_NAME=url-shortener
+     ```
+
+3. Start the environment with Docker Compose:
 
    ```bash
    docker-compose up --build
    ```
 
-4. Acesse a API em: `http://localhost:3000`
+4. Access the API at: `http://localhost:3000`
 
 ---
 
-## **Documentação da API**
+## **API Documentation**
 
-A API está documentada com **Swagger**. Para acessar a documentação:
+The API is documented with **Swagger**. To access the documentation:
 
-1. Suba o ambiente local.
-2. Abra o navegador e acesse: `http://localhost:3000/api/docs`.
+1. Start the local environment.
+2. Open your browser and go to: `http://localhost:3000/api`.
 
 ---
 
 ## **Endpoints**
 
-### **Autenticação**
+### **Authentication**
 
-- **POST /auth/login**: Faz login e retorna um token JWT.
-  - **Corpo da Requisição:**
+- **POST /auth/login**: Logs in and returns a JWT token.
+  - **Request Body:**
     ```json
     {
       "email": "user@example.com",
       "password": "password123"
     }
     ```
-  - **Resposta:**
+  - **Response:**
     ```json
     {
       "accessToken": "jwt_token"
     }
     ```
 
-### **Usuários**
+### **Users**
 
-- **POST /users/create**: Cria um novo usuário.
-  - **Corpo da Requisição:**
+- **POST /users/create**: Creates a new user.
+  - **Request Body:**
     ```json
     {
       "email": "user@example.com",
       "password": "password123"
     }
     ```
-  - **Resposta:**
+  - **Response:**
     ```json
     {
       "userId": "uuid",
@@ -142,14 +148,14 @@ A API está documentada com **Swagger**. Para acessar a documentação:
 
 ### **URLs**
 
-- **POST /urls/shorten**: Encurta uma URL.
-  - **Corpo da Requisição:**
+- **POST /urls/shorten**: Shortens a URL.
+  - **Request Body:**
     ```json
     {
       "longUrl": "https://example.com/long-url"
     }
     ```
-  - **Resposta:**
+  - **Response:**
     ```json
     {
       "urlId": "uuid",
@@ -159,14 +165,14 @@ A API está documentada com **Swagger**. Para acessar a documentação:
     }
     ```
 
-- **GET /urls/listByUser**: Lista URLs encurtadas do usuário autenticado.
-  - **Cabeçalho:**
+- **GET /urls/listByUser**: Lists shortened URLs of the authenticated user.
+  - **Header:**
     ```json
     {
       "Authorization": "Bearer jwt_token"
     }
     ```
-  - **Resposta:**
+  - **Response:**
     ```json
     [
       {
@@ -178,23 +184,23 @@ A API está documentada com **Swagger**. Para acessar a documentação:
     ]
     ```
 
-- **PATCH /urls/update/:token**: Atualiza a URL original de uma URL encurtada.
-  - **Corpo da Requisição:**
+- **PATCH /urls/update/:token**: Updates the original URL of a shortened link.
+  - **Request Body:**
     ```json
     {
       "newLongUrl": "https://newexample.com"
     }
     ```
 
-- **DELETE /urls/delete/:token**: Exclui uma URL encurtada logicamente.
+- **DELETE /urls/delete/:token**: Soft deletes a shortened URL.
 
-- **GET /:token**: Redireciona para a URL original e contabiliza o acesso.
+- **GET /:token**: Redirects to the original URL and tracks the access.
 
 ---
 
-## **Testes**
+## **Testing**
 
-Execute os testes unitários com:
+Run unit tests with:
 
 ```bash
 npm run test
@@ -202,29 +208,28 @@ npm run test
 
 ---
 
-## **Pontos de Melhoria para Escalar Horizontalmente**
+## **Improvement Points**
 
-1. **Banco de Dados Distribuído:**
-   - Utilizar um banco de dados distribuído para alta disponibilidade e escalabilidade.
+1. **Distributed Database:**
+   - Use a distributed database for high availability and scalability.
 
 2. **Cache:**
-   - Implementar um sistema de cache (Redis) para melhorar a performance em URLs acessadas frequentemente.
+   - Implement a caching system (Redis) to improve performance for frequently accessed URLs.
 
-3. **Balanceamento de Carga:**
-   - Adicionar um balanceador de carga (NGINX ou AWS ELB) para distribuir requisições entre múltiplas instâncias.
+3. **Load Balancing:**
+   - Add a load balancer (NGINX or AWS ELB) to distribute requests across multiple instances.
 
-4. **Filas Assíncronas:**
-   - Processar tarefas como contagem de cliques de forma assíncrona usando RabbitMQ ou Kafka.
+4. **Asynchronous Queues:**
+   - Process tasks like click counting asynchronously using RabbitMQ or Kafka.
 
 ---
 
-## **Autor**
+## **Author**
 
 [Gabriel Pereira Soares](https://github.com/gabrielpereira3)
 
 ---
 
-## **Licença**
+## **License**
 
-Este projeto está licenciado sob a Licença MIT.
-
+This project is licensed under the [MIT License](https://github.com/gabrielpereira3/url-shortener/?tab=MIT-1-ov-file).
