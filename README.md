@@ -4,7 +4,7 @@ URL Shortener is a RESTful API built with **Node.js** and **NestJS** to shorten 
 
 ---
 
-## 🚀 Linguagens e Ferramentas Utilizadas
+## 🚀 Tech Stack of the project
 
 ![Node.js](https://img.shields.io/badge/-Node.js-339933?logo=node.js&logoColor=white&style=for-the-badge)
 ![NestJS](https://img.shields.io/badge/-NestJS-E0234E?logo=nestjs&logoColor=white&style=for-the-badge)
@@ -16,19 +16,19 @@ URL Shortener is a RESTful API built with **Node.js** and **NestJS** to shorten 
 
 ---
 
-## 🌐 API Disponível no Google Cloud Platform
+## 🌐 API Available on Google Cloud Platform
 
-A API do URL Shortener está atualmente hospedada no **Google Cloud Platform** e pode ser acessada através do seguinte endereço:
+The URL Shortener API is hosted on **Google Cloud Platform** and can be accessed via the following link:
 
-- **Base URL da API**: [http://34.127.107.109:3000](http://34.127.107.109:3000)
+- **API URL**: [http://34.127.107.109:3000](http://34.127.107.109:3000)
 
-### 📄 Documentação Swagger
+### 📄 Swagger Documentation
 
-A documentação da API, incluindo todas as rotas e detalhes de uso, está disponível através do Swagger no seguinte endereço:
+The API documentation, which includes all routes and usage details, is available via Swagger at the following link:
 
 - **Swagger UI**: [http://34.127.107.109:3000/api/docs](http://34.127.107.109:3000/api/docs)
 
-Utilize a documentação para explorar as funcionalidades da API e testar as rotas diretamente na interface do Swagger.
+Use the documentation to explore all functionalities of the API and test the routes directly through the Swagger interface.
 
 ---
 
